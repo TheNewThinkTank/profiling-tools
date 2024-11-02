@@ -17,7 +17,7 @@ release a patch:
 poetry version patch
 ```
 
-then `git commit`, and
+then `git commit`, `git push` and
 
 ```BASH
 git tag 0.0.2
