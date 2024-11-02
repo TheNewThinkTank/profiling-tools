@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "profiling-tools"
+version = "0.0.2"
+description = "Python profiling tools using cProfile and pstats"
+authors = ["Gustav Rasmussen <gcr84@hotmail.com>"]
+readme = "README.md"
+packages = [{include = "profiling_tools"}]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+matplotlib = "^3.9.2"
+pandas = "^2.2.3"
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.10.0"
+ruff = "^0.7.2"
+mypy = "^1.13.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
