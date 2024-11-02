@@ -7,7 +7,7 @@ readme = "README.md"
 packages = [{include = "profiling_tools"}]
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = "^3.11"
 matplotlib = "^3.9.2"
 pandas = "^2.2.3"
 
