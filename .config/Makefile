@@ -27,7 +27,7 @@ lint-ruff:
 # Static type checks with mypy
 .PHONY: static-type-checks
 static-type-checks:
-	poetry run mypy datetime_tools/ --exclude '/site-packages/'
+	poetry run mypy profiling_tools/ --exclude '/site-packages/'
 
 # Extract tag details from GitHub Actions environment variables
 extract-version:
