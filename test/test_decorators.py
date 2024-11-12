@@ -32,7 +32,7 @@ def test_timer(capsys, unit, expected_unit):
 
     result = sample_func()
     captured = capsys.readouterr()
-    assert f"sample_func took" in captured.out
+    assert "sample_func took" in captured.out
     assert f" {expected_unit}" in captured.out
     assert result == "done"
 
