@@ -1,3 +1,19 @@
+
+
+<a href="https://pypi.org/project/profiling-convertion-tools/">
+<img src="https://img.shields.io/pypi/v/profiling-convertion-tools.svg">
+</a>
+<a href="https://github.com/TheNewThinkTank/msgspec/blob/main/LICENSE">
+<img src="https://img.shields.io/github/license/TheNewThinkTank/profiling-tools.svg">
+</a>
+
+![PyPI Downloads](https://img.shields.io/pypi/dm/profiling-tools)
+![CI](https://github.com/TheNewThinkTank/profiling-tools/actions/workflows/wf.yml/badge.svg)
+[![codecov](https://codecov.io/gh/TheNewThinkTank/profiling-tools/graph/badge.svg?token=Xnca9AfHkt)](https://codecov.io/gh/TheNewThinkTank/profiling-tools)
+![commit activity](https://img.shields.io/github/commit-activity/m/TheNewThinkTank/profiling-tools)
+[![GitHub repo size](https://img.shields.io/github/repo-size/TheNewThinkTank/profiling-tools?style=flat&logo=github&logoColor=whitesmoke&label=Repo%20Size)](https://github.com/TheNewThinkTank/profiling-tools/archive/refs/heads/main.zip)
+
+
 # profiling-tools
 
 Python profiling tools using **cProfile** and **pstats**
