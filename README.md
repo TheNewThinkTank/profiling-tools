@@ -1,7 +1,7 @@
 
 
-<a href="https://pypi.org/project/profiling-convertion-tools/">
-<img src="https://img.shields.io/pypi/v/profiling-convertion-tools.svg">
+<a href="https://pypi.org/project/profiling-tools/">
+<img src="https://img.shields.io/pypi/v/profiling-tools.svg">
 </a>
 <a href="https://github.com/TheNewThinkTank/msgspec/blob/main/LICENSE">
 <img src="https://img.shields.io/github/license/TheNewThinkTank/profiling-tools.svg">
