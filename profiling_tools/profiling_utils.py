@@ -1,5 +1,10 @@
+"""
+Deterministic profiling of Python programs using cProfile as decorator.
+"""
+
 import cProfile
 import functools
+import os
 
 
 def profile(func):
@@ -8,11 +13,17 @@ def profile(func):
     def wrapper(*args, **kwargs):
         profiler = cProfile.Profile()
         profiler.enable()
-
         result = func(*args, **kwargs)  # Execute the wrapped function
-
         profiler.disable()
-        profiler.dump_stats(f"stats/{func.__name__}.stats")  # Save the stats with the function's name
-        return result
 
+        # Ensure the 'stats' directory exists
+        stats_dir = "stats"
+        if not os.path.exists(stats_dir):
+            os.makedirs(stats_dir)
+
+        # Save the profiling stats with the function's name
+        stats_file = f"{stats_dir}/{func.__name__}.stats"
+        profiler.dump_stats(stats_file)
+
+        return result
     return wrapper
