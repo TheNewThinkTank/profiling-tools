@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "profiling-tools"
-version = "0.0.11"
+version = "0.0.12"
 description = "Python profiling tools using cProfile and pstats"
 authors = ["Gustav Rasmussen"]
 readme = "README.md"
