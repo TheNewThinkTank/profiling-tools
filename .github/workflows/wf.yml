@@ -1,65 +1,74 @@
 ---
-    name: Code Qualification Workflow
-    
-    on:
-      workflow_dispatch:
-      push:
-        branches:
-          - main
-    
-    jobs:
-      qualify_code:
-        runs-on: ubuntu-20.04
-    
-        steps:
-          - name: checkout-repo
-            uses: actions/checkout@v4
-    
-          - name: setup-python
-            uses: actions/setup-python@v5
-            with:
-              python-version: 3.11
-              cache: pip
-    
-          - name: install-and-cache-poetry
-            run: make -f .config/Makefile install-poetry
-            if: steps.cache.outputs.cache-hit != 'true'
-    
-          - name: cache-poetry-dependencies
-            id: cache
-            uses: actions/cache@v4
-            with:
-              path: ~/.cache/pypoetry/virtualenvs
-              key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
-              restore-keys: ${{ runner.os }}-poetry-
-    
-          - name: install-dependencies-with-poetry
-            run: poetry install
-            env:
-              POETRY_VIRTUALENVS_IN_PROJECT: true
-            if: steps.cache.outputs.cache-hit != 'true'
-    
-          - name: cache-mypy-dependencies
-            uses: actions/cache@v4
-            with:
-              path: ~/.cache/mypy
-              key: ${{ runner.os }}-mypy-${{ hashFiles('**/mypy.ini') }}
-              restore-keys: ${{ runner.os }}-mypy-
-    
-          - name: check-poetry-version
-            run: poetry --version
-    
-          - name: lint-with-ruff
-            run: make -f .config/Makefile lint-ruff
-    
-          - name: static-type-checks-with-mypy
-            run: make -f .config/Makefile static-type-checks
+name: Code Qualification Workflow
 
-          - name: Run tests
-            run: poetry run pytest --cov --cov-report=xml
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
 
-          - name: Upload results to Codecov
-            uses: codecov/codecov-action@v4
-            with:
-              token: ${{ secrets.CODECOV_TOKEN }}
-              slug: TheNewThinkTank/profiling-tools
+env:
+  PYTHONVERSION: 3.11
+
+jobs:
+  qualify_code:
+    runs-on: ubuntu-latest  # ubuntu-20.04
+
+    steps:
+      - name: checkout-repo
+        uses: actions/checkout@v4
+
+      # - name: setup-python
+      #   uses: actions/setup-python@v5
+      #   with:
+      #     python-version: 3.11
+      #     cache: pip
+
+      # - name: install-and-cache-poetry
+      #   run: make -f .config/Makefile install-poetry
+      #   if: steps.cache.outputs.cache-hit != 'true'
+
+      # - name: cache-poetry-dependencies
+      #   id: cache
+      #   uses: actions/cache@v4
+      #   with:
+      #     path: ~/.cache/pypoetry/virtualenvs
+      #     key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
+      #     restore-keys: ${{ runner.os }}-poetry-
+
+      # - name: install-dependencies-with-poetry
+      #   run: poetry install
+      #   env:
+      #     POETRY_VIRTUALENVS_IN_PROJECT: true
+      #   if: steps.cache.outputs.cache-hit != 'true'
+
+      - name: Setup Python and Poetry
+        uses: TheNewThinkTank/gh-actions/.github/actions/setup-python-poetry@v1.0.0  # main
+        with:
+          python-version: ${{ env.PYTHONVERSION }}
+
+      # TODO: add below version check to above composite action
+      - name: check-poetry-version
+        run: poetry --version
+
+      - name: cache-mypy-dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/mypy
+          key: ${{ runner.os }}-mypy-${{ hashFiles('**/mypy.ini') }}
+          restore-keys: ${{ runner.os }}-mypy-
+
+      - name: lint-with-ruff
+        run: make -f .config/Makefile lint-ruff
+
+      - name: static-type-checks-with-mypy
+        run: make -f .config/Makefile static-type-checks
+
+      - name: Run tests
+        run: poetry run pytest --cov --cov-report=xml
+
+      - name: Upload results to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          slug: TheNewThinkTank/profiling-tools
