@@ -21,6 +21,10 @@ jobs:
       suffix: ${{ steps.release.outputs.suffix }}
       tag_name: ${{ steps.release.outputs.tag_name }}
     steps:
+
+      # - name: clear-cache
+      #   run: rm -rf ~/.cache/pypa
+
       - uses: actions/checkout@v4
 
       - name: Extract tag and Details
@@ -45,27 +49,11 @@ jobs:
     needs: details
     runs-on: ubuntu-latest
     steps:
-      - name: Fetch information from PyPI
-        run: |
-          response=$(curl -s https://pypi.org/pypi/${{ env.PACKAGE_NAME }}/json || echo "{}")
-          latest_previous_version=$(echo $response | grep -oP '"releases":\{"\K[^"]+' | sort -rV | head -n 1)
-          if [ -z "$latest_previous_version" ]; then
-            echo "Package not found on PyPI."
-            latest_previous_version="0.0.0"
-          fi
-          echo "Latest version on PyPI: $latest_previous_version"
-          echo "latest_previous_version=$latest_previous_version" >> $GITHUB_ENV
-
-      - name: Compare versions and exit if not newer
-        run: |
-          NEW_VERSION=${{ needs.details.outputs.new_version }}
-          LATEST_VERSION=$latest_previous_version
-          if [ "$(printf '%s\n' "$LATEST_VERSION" "$NEW_VERSION" | sort -rV | head -n 1)" != "$NEW_VERSION" ] || [ "$NEW_VERSION" == "$LATEST_VERSION" ]; then
-            echo "The new version $NEW_VERSION is not greater than the latest version $LATEST_VERSION on PyPI."
-            exit 1
-          else
-            echo "The new version $NEW_VERSION is greater than the latest version $LATEST_VERSION on PyPI."
-          fi
+      - name: Compare Versions
+        uses: TheNewThinkTank/gh-actions/.github/actions/compare-pypi-versions@v1.0.3
+        with:
+          package_name: ${{ env.PACKAGE_NAME }}
+          new_version: ${{ needs.details.outputs.new_version }}
 
   setup_and_build:
     needs: [details, check_pypi]
