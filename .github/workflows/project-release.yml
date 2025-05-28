@@ -1,0 +1,16 @@
+name: Shared-Release-Workflow
+
+on:
+  push:
+    tags:
+      - "[0-9]+.[0-9]+.[0-9]+"
+      - "[0-9]+.[0-9]+.[0-9]+a[0-9]+"
+      - "[0-9]+.[0-9]+.[0-9]+b[0-9]+"
+      - "[0-9]+.[0-9]+.[0-9]+rc[0-9]+"
+
+jobs:
+  call-release-workflow:
+    uses: TheNewThinkTank/gh-actions/.github/workflows/release.yaml@v1.0.4
+    with:
+      PACKAGE_NAME: "profiling-tools"
+      OWNER: "TheNewThinkTank"
