@@ -8,6 +8,10 @@ on:
       - "[0-9]+.[0-9]+.[0-9]+b[0-9]+"
       - "[0-9]+.[0-9]+.[0-9]+rc[0-9]+"
 
+permissions:
+  id-token: write
+  contents: write
+
 jobs:
   call-release-workflow:
     uses: TheNewThinkTank/gh-actions/.github/workflows/release.yaml@v1.0.4
