@@ -14,7 +14,7 @@ permissions:
 
 jobs:
   call-release-workflow:
-    uses: TheNewThinkTank/gh-actions/.github/workflows/release.yaml@main  # v1.0.4
+    uses: TheNewThinkTank/gh-actions/.github/workflows/release.yaml@v1.0.4
     with:
       PACKAGE_NAME: "profiling-tools"
       OWNER: "TheNewThinkTank"
